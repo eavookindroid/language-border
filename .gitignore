@@ -1,0 +1,20 @@
+# Build artifacts
+build/
+*.deb
+
+# Compiled schemas (regenerated on install)
+**/gschemas.compiled
+
+# Debian build artifacts
+debian/.debhelper/
+debian/debhelper-build-stamp
+debian/files
+debian/gnome-shell-extension-language-border/
+debian/*.substvars
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.language-border" path="/org/gnome/shell/extensions/language-border/">
+
+    <!-- Active window settings -->
+    <key name="active-color" type="s">
+      <default>'rgba(0, 255, 255, 0.8)'</default>
+      <summary>Active window glow color</summary>
+      <description>The color of the glow effect for the focused window</description>
+    </key>
+
+    <key name="active-width" type="i">
+      <range min="5" max="50"/>
+      <default>20</default>
+      <summary>Active window glow width</summary>
+      <description>The width/spread of the glow effect in pixels</description>
+    </key>
+
+    <key name="active-intensity" type="i">
+      <range min="0" max="100"/>
+      <default>70</default>
+      <summary>Active window glow intensity</summary>
+      <description>The intensity/brightness of the glow effect (0-100%)</description>
+    </key>
+
+    <!-- Passive window settings -->
+    <key name="passive-color" type="s">
+      <default>'rgba(100, 100, 100, 0.4)'</default>
+      <summary>Passive window glow color</summary>
+      <description>The color of the glow effect for unfocused windows</description>
+    </key>
+
+    <key name="passive-width" type="i">
+      <range min="0" max="50"/>
+      <default>10</default>
+      <summary>Passive window glow width</summary>
+      <description>The width/spread of the glow effect for unfocused windows</description>
+    </key>
+
+    <key name="passive-intensity" type="i">
+      <range min="0" max="100"/>
+      <default>30</default>
+      <summary>Passive window glow intensity</summary>
+      <description>The intensity/brightness of the glow effect for unfocused windows</description>
+    </key>
+
+    <!-- Per-language mode -->
+    <key name="per-language-mode" type="b">
+      <default>false</default>
+      <summary>Enable per-language glow</summary>
+      <description>When enabled, the glow color changes based on the current keyboard layout</description>
+    </key>
+
+    <key name="language-settings" type="s">
+      <default>'{"ru":{"color":"rgba(0, 255, 0, 0.8)","width":20,"intensity":70},"us":{"color":"rgba(255, 0, 0, 0.8)","width":20,"intensity":70}}'</default>
+      <summary>Per-language settings</summary>
+      <description>JSON object mapping language IDs to their glow settings (color, width, intensity)</description>
+    </key>
+
+  </schema>
+</schemalist>

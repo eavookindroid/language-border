@@ -1,0 +1,13 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	install -d $(CURDIR)/debian/gnome-shell-extension-language-border/usr/share/gnome-shell/extensions/language-border@artelofbots
+	install -m 644 language-border@artelofbots/extension.js $(CURDIR)/debian/gnome-shell-extension-language-border/usr/share/gnome-shell/extensions/language-border@artelofbots/
+	install -m 644 language-border@artelofbots/prefs.js $(CURDIR)/debian/gnome-shell-extension-language-border/usr/share/gnome-shell/extensions/language-border@artelofbots/
+	install -m 644 language-border@artelofbots/metadata.json $(CURDIR)/debian/gnome-shell-extension-language-border/usr/share/gnome-shell/extensions/language-border@artelofbots/
+	install -m 644 language-border@artelofbots/stylesheet.css $(CURDIR)/debian/gnome-shell-extension-language-border/usr/share/gnome-shell/extensions/language-border@artelofbots/
+	install -d $(CURDIR)/debian/gnome-shell-extension-language-border/usr/share/glib-2.0/schemas
+	install -m 644 language-border@artelofbots/schemas/org.gnome.shell.extensions.language-border.gschema.xml $(CURDIR)/debian/gnome-shell-extension-language-border/usr/share/glib-2.0/schemas/

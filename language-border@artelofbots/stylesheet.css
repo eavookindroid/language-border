@@ -1,0 +1,7 @@
+/* Language Border Extension Styles */
+
+.language-border-glow {
+    /* Base style - actual glow is applied dynamically via JS */
+    background-color: transparent;
+    border-radius: 12px;
+}

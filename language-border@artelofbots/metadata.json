@@ -1,0 +1,11 @@
+{
+  "uuid": "language-border@artelofbots",
+  "name": "Language Border",
+  "description": "Glow border around windows indicating keyboard layout. Active and passive windows have different glow colors. In per-language mode, the glow color changes based on the current keyboard layout.",
+  "shell-version": ["47", "48", "49"],
+  "version": 1,
+  "url": "https://github.com/eavookindroid/language-border",
+  "settings-schema": "org.gnome.shell.extensions.language-border",
+  "author": "Artel of Bots",
+  "license": "MIT"
+}

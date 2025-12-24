@@ -1,0 +1,21 @@
+Source: gnome-shell-extension-language-border
+Section: gnome
+Priority: optional
+Maintainer: Artel of Bots <artelofbots@nowhere.funny>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.6.2
+Homepage: https://github.com/eavookindroid/language-border
+Rules-Requires-Root: no
+
+Package: gnome-shell-extension-language-border
+Architecture: all
+Depends: gnome-shell (>= 47), libglib2.0-bin, ${misc:Depends}
+Description: GNOME Shell extension for window glow based on keyboard layout
+ Adds a glow effect around windows that changes color depending on
+ the current keyboard layout. Helps visually identify which language
+ is active. Configurable colors, width and intensity for each layout.
+ .
+ Features:
+  - Glow effect for active and passive windows
+  - Per-language color customization (e.g., ru=green, us=red)
+  - Settings panel via GNOME Extensions app
