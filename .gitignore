@@ -6,6 +6,7 @@ build/
 **/gschemas.compiled
 
 # Debian build artifacts
+debian/changelog
 debian/.debhelper/
 debian/debhelper-build-stamp
 debian/files

@@ -30,6 +30,7 @@ clean:
 	rm -f debian/*.substvars
 
 deb:
+	./scripts/gen-changelog.sh
 	dpkg-buildpackage -us -uc -b
 
 zip:

@@ -255,21 +255,54 @@ class WindowGlowManager {
         };
 
         const signals = [];
+        const data = {
+            border,
+            metaWindow,
+            signals,
+            destroyId: null,
+            syncGeometry,
+            unminimizing: false,
+            unminimizeTimeoutId: 0,
+        };
+
+        this._windowData.set(actor, data);
+
         signals.push({ obj: metaWindow, id: metaWindow.connect('position-changed', syncGeometry) });
         signals.push({ obj: metaWindow, id: metaWindow.connect('size-changed', syncGeometry) });
         signals.push({ obj: metaWindow, id: metaWindow.connect('workspace-changed', () => this._onFocusChanged()) });
+        signals.push({ obj: metaWindow, id: metaWindow.connect('notify::minimized', () => {
+            if (metaWindow.minimized) {
+                if (data.unminimizeTimeoutId) {
+                    GLib.source_remove(data.unminimizeTimeoutId);
+                    data.unminimizeTimeoutId = 0;
+                }
+                data.unminimizing = false;
+                border.visible = false;
+            } else {
+                data.unminimizing = true;
+                border.visible = false;
+                if (data.unminimizeTimeoutId) {
+                    GLib.source_remove(data.unminimizeTimeoutId);
+                }
+                // Delay to let unminimize animation complete
+                data.unminimizeTimeoutId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 300, () => {
+                    data.unminimizeTimeoutId = 0;
+                    data.unminimizing = false;
+                    if (!metaWindow.minimized && this._windowData.has(actor)) {
+                        const focusWindow = global.display.get_focus_window();
+                        const isActive = focusWindow?.get_compositor_private() === actor;
+                        this._updateBorder(actor, isActive);
+                    }
+                    return GLib.SOURCE_REMOVE;
+                });
+            }
+        }) });
 
         const destroyId = actor.connect('destroy', () => {
             this._removeBorder(actor);
         });
 
-        this._windowData.set(actor, {
-            border,
-            metaWindow,
-            signals,
-            destroyId,
-            syncGeometry,
-        });
+        data.destroyId = destroyId;
 
         syncGeometry();
     }
@@ -334,6 +367,16 @@ class WindowGlowManager {
             return;
         }
 
+        if (metaWindow.minimized) {
+            border.visible = false;
+            return;
+        }
+
+        if (data.unminimizing) {
+            border.visible = false;
+            return;
+        }
+
         const color = this._getEffectiveColor(isActive);
         const width = this._getEffectiveWidth(isActive);
         const intensity = this._getEffectiveIntensity(isActive);
@@ -382,7 +425,12 @@ class WindowGlowManager {
         const data = this._windowData.get(actor);
         if (!data) return;
 
-        const { border, signals, destroyId } = data;
+        const { border, signals, destroyId, unminimizeTimeoutId } = data;
+
+        if (unminimizeTimeoutId) {
+            GLib.source_remove(unminimizeTimeoutId);
+            data.unminimizeTimeoutId = 0;
+        }
 
         for (const sig of signals) {
             try {

@@ -1,8 +1,0 @@
-gnome-shell-extension-language-border (1.0-1) unstable; urgency=medium
-
-  * Initial release
-  * Glow effect for active/passive windows
-  * Per-language glow colors based on keyboard layout
-  * Settings panel with Adwaita widgets
-
- -- Artel of Bots <artelofbots@nowhere.funny>  Wed, 25 Dec 2025 02:00:00 +0300

@@ -13,6 +13,8 @@ GNOME Shell extension that adds a glow effect around windows, with color indicat
 - Customizable color, width, and intensity for each layout
 - Settings panel via GNOME Extensions app
 
+![Demo](lang-border.gif)
+
 ## Installation
 
 ### Debian/Ubuntu (.deb)

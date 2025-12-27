@@ -15,55 +15,17 @@ fi
 # Tag is the version (no 'v' prefix)
 VERSION="$LATEST_TAG"
 
-# Get tag annotation message (release notes)
-TAG_MESSAGE=$(git tag -l --format='%(contents)' "$LATEST_TAG" | head -20)
-
-if [ -z "$TAG_MESSAGE" ]; then
-    TAG_MESSAGE="Release $VERSION"
-fi
-
 # Get tag date
 TAG_DATE=$(git log -1 --format=%aD "$LATEST_TAG")
-
-# Get maintainer from debian/control
-MAINTAINER=$(grep -oP 'Maintainer: \K[^<]+' debian/control | sed 's/ *$//' || echo "Artel of Bots")
-EMAIL=$(grep -oP 'Maintainer:.*<\K[^>]+' debian/control || echo "artelofbots@nowhere.funny")
 
 echo "=== Release Info ==="
 echo "Tag: $LATEST_TAG"
 echo "Version: $VERSION"
 echo "Date: $TAG_DATE"
-echo "Message:"
-echo "$TAG_MESSAGE"
 echo "===================="
 
-# Generate new changelog entry
-NEW_ENTRY="gnome-shell-extension-language-border ($VERSION-1) unstable; urgency=medium
-
-"
-
-# Add each line of tag message as changelog item
-while IFS= read -r line; do
-    if [ -n "$line" ]; then
-        NEW_ENTRY+="  * $line
-"
-    fi
-done <<< "$TAG_MESSAGE"
-
-NEW_ENTRY+="
- -- $MAINTAINER <$EMAIL>  $TAG_DATE
-"
-
-# Check if this version already exists in changelog
-if grep -q "($VERSION-1)" debian/changelog 2>/dev/null; then
-    echo "Version $VERSION-1 already in changelog, skipping update"
-else
-    echo "Updating debian/changelog..."
-
-    # Prepend new entry to changelog
-    echo "$NEW_ENTRY" | cat - debian/changelog > debian/changelog.new
-    mv debian/changelog.new debian/changelog
-fi
+echo "Generating debian/changelog from annotated tags..."
+./scripts/gen-changelog.sh
 
 # Update metadata.json version (integer part only)
 META_VERSION=$(echo "$VERSION" | cut -d. -f1)
